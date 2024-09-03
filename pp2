@@ -1,0 +1,58 @@
+namespace PipeModels;
+public class Model
+{
+    public string Name { get; set; }
+    public string FlowName { get; set; }
+    public string SelectSql { get; set; }
+    public string[] ParamNames { get; set; }
+    public void Run()
+    {
+        // 1. BuildSQL (ParamsInSql)
+        // 2. Test Connections ??
+        // 3. Validate SqlqctSql ??
+        // 4. ValidateModel ??
+        // 5. RunModel
+        this.buildSql();
+        this.RunModel();
+    }
+
+    private void buildSql()
+    {
+        ;
+    }
+
+    private void RunModel()
+    {
+        ;
+    }
+}
+
+public class Flow
+{
+    public string Name { get; set; }
+    public List<Model> Models { get; set; }
+
+    public void Run()
+    {
+        foreach(Model m in this.Models)
+        {
+            m.Run();
+        }
+    }
+}
+
+public class Job
+{
+    public string Name { get; set; }
+    public Flow JobFlow { get; set; }
+
+    public void Run()
+    {
+        this.JobFlow.Run();
+    }
+
+    public bool IsReady()
+    {
+        return true;
+    }
+}
