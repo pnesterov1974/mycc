@@ -1,0 +1,111 @@
+using PipeModels;
+using System.Text.Json;
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
+
+Model mSocrBase = new Model
+{
+    Name = "socrBase1",
+    FlowName = "socrBase1Flow",
+    SelectSql = """
+        SELECT
+            [LEVEL],
+            [SCNAME],
+            [SOCRNAME],
+            CAST([KOD_T_ST] AS INT)
+        FROM
+            [dbo].[SOCRBASE];
+        """,
+    ParamNames = new string[4] { "first", "second", "third", "fourth" }
+};
+
+List<Model> lml1 = new List<Model>();
+lml1.Add(mSocrBase);
+
+Flow fSocrBase = new Flow
+{
+    Name = "socrBase1Flow",
+    Models = lml1
+};
+
+Job jSocrBase = new Job()
+{
+    Name = "socrBase1Job",
+    JobFlow = fSocrBase
+};
+// ------------------------------------
+
+Model mAltNames = new Model
+{
+    Name = "altNames1",
+    FlowName = "altNames1Flow",
+    SelectSql = """
+        SELECT
+            TRIM([OLDCODE]),
+            TRIM([NEWCODE]),
+            [LEVEL]
+        FROM
+            [dbo].[ALTNAMES];
+    """,
+    ParamNames = new string[4] { "first", "second", "third", "fourth" }
+};
+
+List<Model> lml2 = new List<Model>();
+lml2.Add(mAltNames);
+
+Flow fAltNames = new Flow
+{
+    Name = "altNames1Flow",
+    Models = lml2
+};
+
+Job jAltNames = new Job
+{
+    Name = "antNames1Job",
+    JobFlow = fAltNames
+};
+
+// ---------
+// Serialize into json
+
+string jsonFilePath = Path.Join(Directory.GetCurrentDirectory(), "test.json");
+
+string json = JsonSerializer.Serialize(mSocrBase);
+File.WriteAllText(jsonFilePath, json);
+
+// ---------
+// Serialize into yaml
+/*
+string yamlFilePath = Path.Join(Directory.GetCurrentDirectory(), "test.yaml");
+var yamlSerializer = new SerializerBuilder()
+    .WithNamingConvention(CamelCaseNamingConvention.Instance)
+    .Build();
+var yaml = yamlSerializer.Serialize(jSocrBase);
+File.WriteAllText(yamlFilePath, yaml);
+*/
+// Deserialize from json
+
+// Model? mSocrBaseRestored;
+// using (Stream stream = new FileStream(jsonFilePath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite))
+// {
+//     if (File.Exists(jsonFilePath) && stream.Length > 0)
+//     {
+//         // read the entire file using a `StreamReader`
+//         string fileContents;
+//         using (StreamReader reader = new StreamReader(stream))
+//         {
+//             fileContents = reader.ReadToEnd();
+//         }
+//         // deserialize the contents of the file
+//         //T obj = JsonSerializer.Deserialize<T>(fileContents, options);
+//         mSocrBaseRestored = JsonSerializer.Deserialize<Model>(fileContents);
+//         string jsonFilePathRestored = Path.Join(Directory.GetCurrentDirectory(), "test2.json");
+
+//         string jsonRestored = JsonSerializer.Serialize(mSocrBaseRestored);
+//         File.WriteAllText(jsonFilePathRestored, jsonRestored);
+//     }
+//     else
+//     {
+//         ;
+//     }
+// }
