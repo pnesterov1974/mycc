@@ -1,3 +1,5 @@
+https://dotnettutorials.net/lesson/ado-net-core-sqlbulkcopy/
+
 using (var loader = new SqlBulkCopy(connectionString, SqlBulkCopyOptions.Default))
             {
                 loader.ColumnMappings.Add(0, 2);
