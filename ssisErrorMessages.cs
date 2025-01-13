@@ -2,7 +2,7 @@ public class SsisErrorMessage
 {
     public long OperationId;
     public DateTimeOffset? MessageTime;
-    public int? MessageType;
+    public int MessageType;
     public string? Message;
     public string? PackageName;
     public string? EventName;
