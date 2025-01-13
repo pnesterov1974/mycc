@@ -3,8 +3,8 @@ public class NDwhError
     public string? Msg { get; set; } = string.Empty;
     public string? EventCategoryCode { get; set; } = string.Empty;
     public DateTime? EventDttm { get; set; }
-    public string? LogTable { get; set; } = string.Empty;
-    public long? LogPk { get; set; }
+    public string LogTable { get; set; } = string.Empty;
+    public long LogPk { get; set; }
     public bool? LogSolvedFlag { get; set; }
     public string? Suser { get; set; } = string.Empty;
     public DateTime? DateChange { get; set; }
@@ -55,15 +55,15 @@ public static class NDwhErrors
                 {
                     var em = new NDwhError
                     {
-                        Msg = reader.GetString(0),
-                        EventCategoryCode = reader.GetString(1),
-                        EventDttm = reader.GetDateTime(2),
+                        Msg = reader.IsDBNull(0) ? null : reader.GetString(0),
+                        EventCategoryCode = reader.IsDBNull(1) ? null : reader.GetString(1),
+                        EventDttm = reader.IsDBNull(2) ? null : reader.GetDateTime(2),
                         LogTable = reader.GetString(3),
                         LogPk = reader.GetInt64(4),
-                        LogSolvedFlag = reader.GetBoolean(5),
-                        Suser = reader.GetString(6),
-                        DateChange = reader.GetDateTime(7),
-                        SsisExecutionId = reader.GetInt64(8),
+                        LogSolvedFlag = reader.IsDBNull(5) ? null : reader.GetBoolean(5),
+                        Suser = reader.IsDBNull(6) ? null : reader.GetString(6),
+                        DateChange = reader.IsDBNull(7) ? null : reader.GetDateTime(7),
+                        SsisExecutionId = reader.IsDBNull(8) ? null : reader.GetInt64(8),
                     };
                     yield return em;
                 }
