@@ -50,15 +50,15 @@ public static class SsisErrorMessages
                     var em = new SsisErrorMessage
                     {
                         OperationId = reader.GetFieldValue<long>(0),
-                        MessageTime = reader.GetFieldValue<DateTimeOffset>(1),
+                        MessageTime = reader.IsDBNull(1) ? null : reader.GetFieldValue<DateTimeOffset>(1),
                         MessageType = reader.GetInt16(2),
-                        Message = reader.GetFieldValue<string>(3),
-                        PackageName = reader.GetFieldValue<string>(4),
-                        EventName = reader.GetFieldValue<string>(5),
-                        MessageSourceName = reader.GetFieldValue<string>(6),
+                        Message = reader.IsDBNull(3) ? null : reader.GetFieldValue<string>(3),
+                        PackageName = reader.IsDBNull(4) ? null :reader.GetFieldValue<string>(4),
+                        EventName = reader.IsDBNull(5) ? null :reader.GetFieldValue<string>(5),
+                        MessageSourceName = reader.IsDBNull(6) ? null : reader.GetFieldValue<string>(6),
                         SubComponentName = reader.IsDBNull(7) ? null : reader.GetFieldValue<string>(7),
-                        PackagePath = reader.GetFieldValue<string>(8),
-                        ExecutionPath = reader.GetFieldValue<string>(9),
+                        PackagePath = reader.IsDBNull(8) ? null :reader.GetFieldValue<string>(8),
+                        ExecutionPath = reader.IsDBNull(9) ? null : reader.GetFieldValue<string>(9),
                         MessageCode = reader.IsDBNull(10) ? null : reader.GetFieldValue<int>(10),
                     };
                     yield return em;
